@@ -46,7 +46,7 @@ const getJobs = asyncHandler(async(req, res)=>{
     return res.status(201).json(jobs);
 });
 
-// @desc   Get all jobs
+// @desc   Get user jobs
 // @route  GET /api/jobs
 // @access  Public
 const getUserJobs = asyncHandler(async(req, res)=>{
@@ -58,8 +58,20 @@ const getUserJobs = asyncHandler(async(req, res)=>{
     return res.status(201).json(jobs);
 });
 
-// @desc   Get job
-// @route  GET /api/jobs
+// @desc   Get user jobs
+// @route  GET /api/jobs/job/:id
+// @access  Public
+const getOneJob = asyncHandler(async(req, res)=>{
+    const job = await Job.findById(req.params.id);
+    if(!job){
+        res.status(401);
+        throw new Error("No Job found with this ID");
+    }
+    return res.status(201).json(job);
+});
+
+// @desc   update job
+// @route  PUT /api/jobs
 // @access  Public
 const putJob = asyncHandler(async(req, res)=>{
     const job = await Job.findById(req.params.id);
@@ -107,6 +119,7 @@ const deleteJob = asyncHandler(async(req, res)=>{
 module.exports = {
     postJob,
     getJobs,
+    getOneJob,
     getUserJobs,
     putJob,
     deleteJob,
