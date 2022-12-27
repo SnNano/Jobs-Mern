@@ -28,6 +28,14 @@ export const jobReducer = (state, action) => {
                 isSuccess: true,
                 message:"Job offer edited successfully"
             }
+        case "DELETE_JOB":
+            return {...state,
+                jobs:state.jobs.filter((job)=>job._id !== action.payload),
+                isLoading: true,
+                isError:false,
+                isSuccess: true,
+                message:"Job offer deleted successfully"
+            }
         case "SINGLE_JOB":
             return {...state,
                 job:action.payload,

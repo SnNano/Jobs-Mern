@@ -27,7 +27,7 @@ const Register = () => {
       navigate('/');
     }
     dispatch({type:"RESET"});
-  }, [state.isError, state.isSuccess, state.isLoading, state.message, navigate, state.user]);
+  }, [state.isError, state.isSuccess, state.isLoading, state.message, navigate, state.user, dispatch]);
 
   // setForm data values
   const onChange = (e) => {

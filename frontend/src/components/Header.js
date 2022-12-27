@@ -27,18 +27,18 @@ const Header = () => {
                 <Link to="/" className="block mt-4 lg:inline-block text-teal-600 lg:mt-0 mr-10">
                     Home
                 </Link>
-                <Link to="/" className="block mt-4 lg:inline-block hover:text-gray-700 lg:mt-0 mr-10">
-                    About us
-                </Link>
                 {state.user ? (<>
-                    <Link to="/" className="block mt-4 lg:inline-block hover:text-gray-700 lg:mt-0 mr-10">
-                    Manage jobs
+                    <Link to="/manage-jobs" className="block mt-4 lg:inline-block hover:text-gray-700 lg:mt-0 mr-5">
+                    <i class="fa-solid fa-list-check"></i> Manage jobs
                 </Link>
-                 <button onClick={onLogout} className="block hover:text-gray-700 mt-4 lg:inline-block lg:mt-0 mr-10">
+                <div className="mr-5 lg:mr-0 hidden lg:inline-block">
+                <Link to="/new-job" className="cursor-pointer py-2 px-6 bg-teal-500 hover:bg-teal-600 rounded-full text-white text-lg mr-5">Post job</Link>
+                 <button onClick={onLogout} className="block hover:text-gray-700 mt-4 lg:inline-block lg:mt-0">
                     Logout
                 </button>
+                </div>
                 </>) : (
-                     <div className="mr-5 lg:mr-0 hidden lg:inline-block">
+                <div className="mr-5 lg:mr-0 hidden lg:inline-block">
                      <Link to="/login" className="cursor-pointer py-2 px-6 border border-teal-500 rounded-full text-teal-500 hover:text-gray-700 text-lg mr-5">Login</Link>
                      <Link to="/register" className="cursor-pointer py-2 px-6 bg-teal-500 hover:bg-teal-600 rounded-full text-white text-lg">Sign up</Link>
                  </div>

@@ -12,5 +12,6 @@ const {
   } = require("../controllers/jobController");
 
 router.route("/").post(protect,upload.single("logo"), postJob).get(getJobs);
-router.route("/:id").put(protect, upload.single("logo"),putJob).delete(protect, deleteJob).get(getOneJob,protect, getUserJobs);
+router.route("/user/:id").get(protect, getUserJobs);
+router.route("/:id").put(protect, upload.single("logo"),putJob).delete(protect, deleteJob).get(getOneJob);
 module.exports = router;

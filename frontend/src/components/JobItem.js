@@ -1,23 +1,17 @@
-import axios from "axios";
 import { useEffect, useReducer } from "react";
 import { Link, useParams } from "react-router-dom";
 import { initialState, jobReducer } from "../Reducers/jobReducer";
+import { getOneJob } from "../services/jobsService";
 const URL = "http://localhost:5000/";
 
 const JobItem = () => {
     const {id} = useParams();
     const [state, dispatch] = useReducer(jobReducer, initialState);
-   useEffect(()=>{
-    const getJob = async (id)=>{
-        try {
-            const response = await axios.get(`/api/jobs/${id}`);
-            dispatch({type:"SINGLE_JOB", payload:response.data});
-        } catch (error) {
-            dispatch({type:"ERROR", payload:error.response.data.message})
-        }
-    }
-    getJob(id);
-   },[id])
+
+    useEffect(()=>{
+        getOneJob(id, dispatch);
+    },[id]);
+
   return (
     <>
           <section className="container p-6 mx-auto w-full max-w-lg text-center">
@@ -36,7 +30,7 @@ const JobItem = () => {
             </div>
             {state.user ? (state.job.user === state.user._id ? (
                 <div className="mt-10">
-                <button className="py-2 px-6 text-teal-500"><i className="fa-regular fa-pen-to-square"></i> Edit</button>
+                <Link to={`/new-job/${state.job._id}`} className="py-2 px-6 text-teal-500"><i className="fa-regular fa-pen-to-square"></i> Edit</Link>
                 <button className="py-2 px-6 text-red-400"><i className="fa-solid fa-trash"></i> Delete</button>
             </div>
             ) : (<></>)) : (<></>)}

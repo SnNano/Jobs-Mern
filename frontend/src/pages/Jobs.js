@@ -3,8 +3,8 @@ import { useReducer } from "react";
 import { Link } from "react-router-dom";
 import { toast } from 'react-toastify';
 import { initialState, jobReducer } from "../Reducers/jobReducer";
-import axios from "axios";
 import Spinner from "../components/Spinner";
+import { fetchAllJobs } from "../services/jobsService";
 
 
 
@@ -13,18 +13,10 @@ const Jobs = () => {
   const {jobs, isLoading, isError, message} = state;
 
   useEffect(()=>{
-    const fetchJobs = async () => {
-      try {
-        const response = await axios.get("/api/jobs");
-        dispatch({type: "FETCH_JOBS", payload:response.data});
-      } catch (error) {
-        dispatch({type:"ERROR", payload:error.response.data.message})
-      }
-    }
     if(isError){
       toast.error(message);
     }
-    fetchJobs();
+    fetchAllJobs(dispatch);
   }, [dispatch, isLoading, isError, message]);
 
   

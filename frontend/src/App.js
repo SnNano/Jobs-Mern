@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { initialState } from "./Reducers/authReducer";
 import { authReducer } from "./Reducers/authReducer";
+import JobForm from "./pages/JobForm";
 
 export const UserContext = createContext();
 
@@ -30,6 +31,8 @@ function App() {
               <Route path="/login" element={<Login />}/>
               <Route path="/register" element={<Register />}/>
               <Route path="/manage-jobs" element={<ManageJobs />}/>
+              <Route path="/new-job" element={<JobForm />}/>
+              <Route path="/new-job/:id" element={<JobForm />}/>
               <Route path="/job/:id" element={<JobItem />}/>
             </Routes>
             <ToastContainer />
