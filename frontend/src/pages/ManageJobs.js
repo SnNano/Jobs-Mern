@@ -1,10 +1,10 @@
-import { useEffect, useReducer } from "react";
+import { useEffect, useReducer, useState } from "react";
 import {Link} from "react-router-dom";
 import { initialState, jobReducer } from "../Reducers/jobReducer";
 import { deleteJob, getUserJobs } from "../services/jobsService";
 import { toast } from 'react-toastify';
 import Spinner from "../components/Spinner";
-
+import Pagination from "../components/Pagination";
 
 
 const ManageJobs = () => {
@@ -12,6 +12,8 @@ const ManageJobs = () => {
     const [state, dispatch] = useReducer(jobReducer, initialState);
     const {user, jobs, isLoading, isError, message} = state;
     const token = user.token;
+    const [currentPage, setCurrentPage]=useState(1);
+    const [postsPerPage]=useState(5);
 
     useEffect(()=>{
         if(isError){
@@ -24,6 +26,13 @@ const ManageJobs = () => {
         alert("Are you sure?");
         deleteJob(token, jobId, dispatch);
     }
+    // Get current posts
+    const indexOfLastPost = currentPage * postsPerPage;
+    const indexOfFirstPost = indexOfLastPost - postsPerPage;
+    const currentJobs = jobs.slice(indexOfFirstPost, indexOfLastPost).reverse();
+
+    // Change page
+    const paginate = (pageNumber) => setCurrentPage(pageNumber)
 
     if (isLoading) {
         return <Spinner />
@@ -50,8 +59,8 @@ const ManageJobs = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {jobs.length > 0 && user ? (
-                            jobs.map((job)=>{
+                        {currentJobs.length > 0 && user ? (
+                            currentJobs.map((job)=>{
                                 return     <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                                 <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {job.title}
@@ -75,6 +84,7 @@ const ManageJobs = () => {
                     </tbody>
                 </table>
             </div>
+            <Pagination  postsPerPage={postsPerPage} totalPosts={jobs.length} paginate={paginate} currentPage={currentPage}/>
         </section>
     </>
   )

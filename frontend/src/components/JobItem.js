@@ -1,20 +1,28 @@
 import { useEffect, useReducer } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { initialState, jobReducer } from "../Reducers/jobReducer";
-import { getOneJob } from "../services/jobsService";
+import { getOneJob, deleteJob } from "../services/jobsService";
 const URL = "http://localhost:5000/";
 
 const JobItem = () => {
     const {id} = useParams();
     const [state, dispatch] = useReducer(jobReducer, initialState);
+    const navigate = useNavigate();
+    const token = state.user.token;
 
     useEffect(()=>{
         getOneJob(id, dispatch);
     },[id]);
+    
+    const handleDelete = (jobId)=>{
+        alert("Are you sure?");
+        deleteJob(token, jobId, dispatch);
+        navigate("/");
+    }
 
   return (
     <>
-          <section className="container p-6 mx-auto w-full max-w-lg text-center">
+        <section className="container p-6 mx-auto w-full max-w-lg text-center">
            <div className="w-full">
             <img src={URL+state.job.logo} alt="logo" className="w-40 rounded-lg mb-5 inline-block" />
            </div>
@@ -31,7 +39,7 @@ const JobItem = () => {
             {state.user ? (state.job.user === state.user._id ? (
                 <div className="mt-10">
                 <Link to={`/new-job/${state.job._id}`} className="py-2 px-6 text-teal-500"><i className="fa-regular fa-pen-to-square"></i> Edit</Link>
-                <button className="py-2 px-6 text-red-400"><i className="fa-solid fa-trash"></i> Delete</button>
+                <button onClick={()=>handleDelete(state.job._id)} className="py-2 px-6 text-red-400"><i className="fa-solid fa-trash"></i> Delete</button>
             </div>
             ) : (<></>)) : (<></>)}
         </section>
