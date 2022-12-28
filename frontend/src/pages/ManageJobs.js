@@ -1,17 +1,19 @@
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import {Link} from "react-router-dom";
 import { initialState, jobReducer } from "../Reducers/jobReducer";
 import { deleteJob, getUserJobs } from "../services/jobsService";
 import { toast } from 'react-toastify';
 import Spinner from "../components/Spinner";
 import Pagination from "../components/Pagination";
+import {UserContext} from "../App";
 
 
 const ManageJobs = () => {
 
-    const [state, dispatch] = useReducer(jobReducer, initialState);
-    const {user, jobs, isLoading, isError, message} = state;
-    const token = user.token;
+    const {state} = useContext(UserContext);
+    const [jobState, dispatch] = useReducer(jobReducer, initialState);
+    const {jobs, isLoading, isError, message} = jobState;
+    const token = state.user ? state.user.token : "";
     const [currentPage, setCurrentPage]=useState(1);
     const [postsPerPage]=useState(5);
 
@@ -19,8 +21,8 @@ const ManageJobs = () => {
         if(isError){
             toast.error(message);
           }
-        getUserJobs(user._id, token, dispatch);
-    }, [user._id, isError, message, token]);
+        getUserJobs(state.user._id, token, dispatch);
+    }, [state.user._id, isError, message, token]);
 
     const handleDelete = (jobId)=>{
         alert("Are you sure?");
@@ -41,6 +43,7 @@ const ManageJobs = () => {
     <>
       <section className="container p-6 mx-auto w-full">  
             <div className="overflow-x-auto relative shadow-md sm:rounded-lg">
+            {currentJobs.length > 0 && state.user ? (
                 <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                     <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                         <tr>
@@ -59,9 +62,8 @@ const ManageJobs = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        {currentJobs.length > 0 && user ? (
-                            currentJobs.map((job)=>{
-                                return     <tr className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                            {currentJobs.map((job)=>{
+                                return <tr key={job._id} className="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
                                 <th scope="row" className="py-4 px-6 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                                     {job.title}
                                 </th>
@@ -75,16 +77,16 @@ const ManageJobs = () => {
                                     <Link onClick={()=>handleDelete(job._id)} className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Delete</Link>
                                 </td>
                             </tr>
-                            })
-                        ) : (
-                            <div className="flex items-center justify-center">
-                                <h3 className="text-2xl text-gray-500"> You have not set any goals</h3>
-                            </div>
-                        )}
+                            })}
                     </tbody>
                 </table>
+                ) : (
+                    <div className="flex items-center justify-center">
+                        <h3 className="text-2xl text-gray-500"> You have not post any job offers</h3>
+                    </div>
+                )}
             </div>
-            <Pagination  postsPerPage={postsPerPage} totalPosts={jobs.length} paginate={paginate} currentPage={currentPage}/>
+            <Pagination postsPerPage={postsPerPage} totalPosts={jobs.length} paginate={paginate} currentPage={currentPage}/>
         </section>
     </>
   )

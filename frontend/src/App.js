@@ -5,6 +5,7 @@ import Register from "./pages/auth/Register";
 import Footer from './components/Footer';
 import Header from './components/Header';
 import Home from "./pages/Home";
+import NotFound from "./components/NotFound";
 import ManageJobs from "./pages/ManageJobs";
 import JobItem from "./components/JobItem";
 import { ToastContainer } from 'react-toastify';
@@ -25,15 +26,16 @@ function App() {
     <Router>
       <UserContext.Provider value={{state, dispatch}}>
           <Header />
-          <main className="mt-12 lg:mt-32">
+          <main className="my-12 lg:my-32 w-full">
             <Routes>
               <Route path="/" element={<Home />}/>
               <Route path="/login" element={<Login />}/>
               <Route path="/register" element={<Register />}/>
-              <Route path="/manage-jobs" element={<ManageJobs />}/>
-              <Route path="/new-job" element={<JobForm />}/>
+              {state.user && <Route path="/manage-jobs" element={<ManageJobs />}/>}
+              {state.user && <Route path="/new-job" element={<JobForm />}/>}
               <Route path="/new-job/:id" element={<JobForm />}/>
               <Route path="/job/:id" element={<JobItem />}/>
+              <Route path='*' element={<NotFound />}/>
             </Routes>
             <ToastContainer />
           </main>

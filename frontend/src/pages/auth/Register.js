@@ -5,6 +5,7 @@ import { toast } from 'react-toastify';
 import axios from "axios";
 import { UserContext } from "../../App";
 import { useContext } from "react";
+import {PropTypes} from "prop-types";
 
 const API_URL = "/api/users/";
 
@@ -59,7 +60,7 @@ const Register = () => {
 }
   return (
     <>
-    <section className="container p-6 mx-auto w-full max-w-md">
+    <section className="p-6 mx-auto w-full max-w-lg">
           <form className="bg-gray-100 shadow-sm rounded-md p-8" onSubmit={handleSubmit}>
               <h2 className="lg:text-2xl text-center font-semibold mb-6">Register</h2>
               <div className="mb-6">
@@ -84,4 +85,10 @@ const Register = () => {
     </>
   )
 }
-export default Register
+Register.propTypes = {
+  name:PropTypes.string.isRequired,
+  email:PropTypes.string.isRequired,
+  password:PropTypes.string.isRequired,
+  password2:PropTypes.string.isRequired,
+};
+export default Register;

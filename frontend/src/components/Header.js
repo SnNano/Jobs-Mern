@@ -29,7 +29,7 @@ const Header = () => {
                 </Link>
                 {state.user ? (<>
                     <Link to="/manage-jobs" className="block mt-4 lg:inline-block hover:text-gray-700 lg:mt-0 mr-5">
-                    <i class="fa-solid fa-list-check"></i> Manage jobs
+                    <i className="fa-solid fa-list-check"></i> Manage jobs
                 </Link>
                 <div className="mr-5 lg:mr-0 hidden lg:inline-block">
                 <Link to="/new-job" className="cursor-pointer py-2 px-6 bg-teal-500 hover:bg-teal-600 rounded-full text-white text-lg mr-5">Post job</Link>

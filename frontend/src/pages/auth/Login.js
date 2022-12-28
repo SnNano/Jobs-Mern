@@ -5,6 +5,8 @@ import Spinner from "../../components/Spinner";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../App";
 import { useContext } from "react";
+import {PropTypes} from "prop-types";
+
 
 const API_URL = "/api/users/";
 
@@ -54,7 +56,7 @@ const Login = () => {
 
   return (
     <>
-       <section className="container p-6 mx-auto w-full max-w-md">
+       <section className="p-6 mx-auto w-full max-w-lg">
           <form className="bg-gray-100 shadow-sm rounded-md p-8" onSubmit={handleSubmit}>
               <h2 className="lg:text-2xl text-center font-semibold mb-6">Login</h2>
               <div className="mb-6">
@@ -70,5 +72,9 @@ const Login = () => {
        </section>
     </>
   )
+}
+Login.propTypes = {
+  email:PropTypes.string,
+  password:PropTypes.string,
 }
 export default Login

@@ -9,6 +9,7 @@ export const initialState = {
     isLoading:true,
     isError:false,
     isSuccess:false,
+    search:'',
     message:""
 }
 
@@ -49,6 +50,13 @@ export const jobReducer = (state, action) => {
                 isLoading:false,
                 isError:false,
                 isSuccess: true
+              }
+        case "FILTER_JOBS":
+            return {...state,
+                isLoading:false,
+                isError:false,
+                isSuccess: true,
+                search:action.search
               }
         case "ERROR":
             return {...state,
