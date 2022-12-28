@@ -1,11 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../App";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Spinner from "./Spinner";
 
 
 const Header = () => {
     const {state, dispatch} = useContext(UserContext);
+    const [togglBtn, setToggle] = useState(false);
+
     const navigate = useNavigate();
     const onLogout = async () => {
         dispatch({type:"LOGOUT"});
@@ -13,17 +15,18 @@ const Header = () => {
         dispatch({type:"RESET"});
         navigate("/login");
     }
+    const handleToggle = () => {
+        setToggle(!togglBtn);
+    }
     if (state.isLoading) {
         return <Spinner />
     }
   return (
     <>
-     <header className="drop-shadow-md">
-        <nav className="container mx-auto flex items-center justify-between p-6">
-            <Link to="/" id="logo">
-                LOGO
-            </Link>
-            <div className="text-lg text-gray-600 lg:flex hidden" id="menu">
+     <header className={`drop-shadow-md ${togglBtn ? 'shadow-md' : ''}`}>
+        <nav className={`container mx-auto flex justify-between p-6 ${togglBtn ? '' : 'items-center'}`}>
+            <Link to="/" id="logo" className={`text-lg font-semibold ${togglBtn ? 'hidden' : ''}`}> LOGO </Link>
+            <div className={`text-lg text-gray-600 lg:flex ${togglBtn ? '' : 'hidden'}`} id="menu" >
                 <Link to="/" className="block mt-4 lg:inline-block text-teal-600 lg:mt-0 mr-10">
                     Home
                 </Link>
@@ -45,7 +48,7 @@ const Header = () => {
                 )}
             </div>
             <div className="block lg:hidden">
-                <button id="btn-toggle"
+                <button id="btn-toggle" onClick={handleToggle}
                     className="flex items-center px-4 py-3 border rounded text-teal-500 border-teal-500 focus:outline-none">
                     <svg className="fill-current h-3 w-3" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <title>Menu</title>

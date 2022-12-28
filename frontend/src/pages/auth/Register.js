@@ -86,9 +86,9 @@ const Register = () => {
   )
 }
 Register.propTypes = {
-  name:PropTypes.string.isRequired,
-  email:PropTypes.string.isRequired,
-  password:PropTypes.string.isRequired,
-  password2:PropTypes.string.isRequired,
+  name:PropTypes.string,
+  email:PropTypes.string,
+  password:PropTypes.string,
+  password2:PropTypes.string,
 };
 export default Register;
