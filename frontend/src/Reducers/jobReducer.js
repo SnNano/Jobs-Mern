@@ -1,7 +1,6 @@
 
 // Get user from localStorage
 const user = JSON.parse(localStorage.getItem("user"));
-
 export const initialState = {
     jobs:[],
     job:{},

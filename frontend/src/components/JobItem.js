@@ -12,7 +12,6 @@ const JobItem = () => {
     const navigate = useNavigate();
     const token = jobState.user ? jobState.user.token : "";
 
-
     useEffect(()=>{
         getOneJob(id, dispatch);
     },[id]);
@@ -20,6 +19,12 @@ const JobItem = () => {
     useEffect(()=>{
         window.scrollTo(0, 0);
     },[]);
+
+    const goToWebsite = () => {
+        const websiteUrl = jobState.job.website;
+        let isHttps = websiteUrl.startsWith('https://') || websiteUrl.startsWith('http://');;
+        isHttps ? window.location.href=websiteUrl : window.location.href=`https://${websiteUrl}`;
+    }
 
     const handleDelete = (jobId)=>{
         alert("Are you sure?");
@@ -40,7 +45,7 @@ const JobItem = () => {
            <h3 className="text-teal-600 lg:text-2xl text-xl font-semibold mb-2">Job description</h3>
            <p className="text-gray-600 text-lg sm:text-md font-light">{jobState.job.description}</p>
             <div className="mt-10">
-                <Link to={jobState.job.website} className="cursor-pointer py-2 px-6 bg-teal-500 hover:bg-teal-600 rounded-md text-white text-lg mr-5"><i className="fa-brands fa-firefox-browser"></i> Visit their website</Link>
+                <button onClick={goToWebsite} className="cursor-pointer py-2 px-6 bg-teal-500 hover:bg-teal-600 rounded-md text-white text-lg"><i className="fa-brands fa-firefox-browser"></i> Visit their website</button>
             </div>
             {state.user ? (jobState.job.user === state.user._id ? (
                 <div className="mt-10">

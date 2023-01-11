@@ -13,7 +13,7 @@ const Spinner = () => {
   return (
     <>
         <div style={styleBg} className="flex items-center justify-center space-x-2 fixed w-full h-full bg-gray-200 opacity-50">
-            <div style={styleSpinner} className="spinner-border animate-spin inline-block w-12 h-12  rounded-full" role="status">
+            <div style={styleSpinner} className="spinner-border animate-spin inline-block w-12 h-12 rounded-full" role="status">
             </div>
         </div>
     </>

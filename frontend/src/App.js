@@ -26,7 +26,7 @@ function App() {
     <Router>
       <UserContext.Provider value={{state, dispatch}}>
           <Header />
-          <main className="my-12 lg:my-32 w-full">
+          <main className="mt-12 lg:mt-32 w-full">
             <Routes>
               <Route path="/" element={<Home />}/>
               <Route path="/login" element={<Login />}/>
@@ -35,6 +35,7 @@ function App() {
               {state.user && <Route path="/new-job" element={<JobForm />}/>}
               <Route path="/new-job/:id" element={<JobForm />}/>
               <Route path="/job/:id" element={<JobItem />}/>
+              {/* Route that doesn't exist */}
               <Route path='*' element={<NotFound />}/>
             </Routes>
             <ToastContainer />

@@ -24,12 +24,13 @@ const Jobs = ({state, dispatch, search}) => {
       // get Indexes
       const indexOfLastPost = currentPage * postsPerPage;
       const indexOfFirstPost = indexOfLastPost - postsPerPage;
-      const currentJobs = jobs.slice(indexOfFirstPost, indexOfLastPost).reverse();
+      // reverse the job list
+      let reversedJobs = [...jobs].reverse();
+      const currentJobs = reversedJobs.slice(indexOfFirstPost, indexOfLastPost);
       // filtering jobs
       const filterJobs = currentJobs.filter((job)=>{
         return job.title.toLowerCase().includes(search.toLowerCase());
     });
-
       // Change page
       const paginate = (pageNumber) => setCurrentPage(pageNumber)
 

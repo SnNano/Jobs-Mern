@@ -1,4 +1,21 @@
+import { UserContext } from "../App";
+import { Link, useNavigate } from "react-router-dom";
+import Spinner from "./Spinner";
+import { useContext } from "react";
+
 const Footer = () => {
+    const {state, dispatch} = useContext(UserContext);
+    const navigate = useNavigate();
+    const onLogout = async () => {
+        dispatch({type:"LOGOUT"});
+        localStorage.removeItem("user");
+        dispatch({type:"RESET"});
+        navigate("/login");
+    }
+
+    if (state.isLoading) {
+        return <Spinner />
+    }
   return (
     <>
     <footer className="bg-gray-100">   
@@ -10,15 +27,29 @@ const Footer = () => {
                         <li className="mb-4">
                             <a href="/" className="hover:underline">Features</a>
                         </li>
-                        <li className="mb-4">
-                            <a href="/" className="hover:underline">Solutions</a>
-                        </li>
-                        <li className="mb-4">
-                            <a href="/" className="hover:underline">Pricing</a>
-                        </li>
-                        <li className="mb-4">
-                            <a href="/" className="hover:underline">Tutorials</a>
-                        </li>
+                        {state.user ?(
+                          <>
+                            <li className="mb-4">
+                                <Link to="/new-job" className="hover:underline">Post job</Link>
+                            </li>
+                            <li className="mb-4">
+                            <button onClick={onLogout} className="block hover:text-gray-700 mt-4 lg:inline-block lg:mt-0">
+                            Logout </button>
+                            </li>
+                          </>
+                        ):(
+                        <>
+                            <li className="mb-4">
+                                <Link to="/login" className="hover:underline">Login</Link>
+                            </li>
+                            <li className="mb-4">
+                                <Link to="/register" className="hover:underline">Signup</Link>
+                            </li>
+                            <li className="mb-4">
+                                <a href="/" className="hover:underline">About us</a>
+                            </li>
+                        </>
+                        )}                      
                     </ul>
                 </div>
                 <div>
@@ -75,8 +106,8 @@ const Footer = () => {
             </div>
         </div>
         <hr className="mt-6 border-gray-300 sm:mx-auto dark:border-gray-700 lg:mt-8" />
-        <div className="container text-center py-3">
-            <span className="text-sm text-teal-500 dark:text-gray-400">© 2022 <a href="/" className="hover:underline">JobsListing</a>. All Rights Reserved.
+        <div className="text-center py-3">
+            <span className="text-sm text-teal-500 dark:text-gray-400">© 2023 <a href="/" className="hover:underline">JobsListing</a>. All Rights Reserved.
             </span>
         </div>
     </footer>

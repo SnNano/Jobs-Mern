@@ -56,7 +56,7 @@ const Login = () => {
 
   return (
     <>
-       <section className="p-6 mx-auto w-full max-w-lg">
+       <section className="mb-12 lg:mb-32 p-6 mx-auto w-full max-w-lg">
           <form className="bg-gray-100 shadow-sm rounded-md p-8" onSubmit={handleSubmit}>
               <h2 className="lg:text-2xl text-center font-semibold mb-6">Login</h2>
               <div className="mb-6">

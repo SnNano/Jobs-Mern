@@ -1,14 +1,17 @@
-import { useEffect, useReducer, useState } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { initialState, jobReducer } from "../Reducers/jobReducer";
 import { toast } from 'react-toastify';
 import { useNavigate, useParams } from "react-router-dom";
 import { editJob, getJob, postJob } from "../services/jobsService";
 import {PropTypes} from "prop-types";
+import {UserContext} from "../App";
+
 
 
 const JobForm = () => {
 
-  const [state, dispatch] = useReducer(jobReducer, initialState);
+  const [jobState, dispatch] = useReducer(jobReducer, initialState);
+  const {state} = useContext(UserContext);
   const navigate = useNavigate();
   const {id} = useParams();
   const [formData, setFormData] = useState({
@@ -28,28 +31,28 @@ const JobForm = () => {
       })
   }
   useEffect(()=>{
-    if(state.isError){
-      toast.error(state.message);
+    if(jobState.isError){
+      toast.error(jobState.message);
     }
-    if(state.isSuccess){
-      toast.success(state.message);
+    if(jobState.isSuccess){
+      toast.success(jobState.message);
       navigate("/manage-jobs")
     }
     dispatch({type:"RESET"});
-  }, [state.isError, state.message, state.isSuccess, navigate]);
+  }, [jobState.isError, jobState.message, jobState.isSuccess, navigate]);
 
   useEffect(()=>{
     const setEditedData = async ()=>{
       if(id){
         const response = await getJob(id);
         setFormData({
-          ...state,
+          ...jobState,
           ...response.data
         })
       }
     }
     setEditedData(id);
-  }, [state, id])
+  }, [jobState, id])
   // getting token from state
   const token = state.user ? state.user.token : "";
   const handleSubmit = async (e) =>{
@@ -68,7 +71,7 @@ const JobForm = () => {
   }
   return (
     <>
-        <section className="container p-6 mx-auto w-full">
+        <section className="container mb-12 lg:mb-32 p-6 mx-auto w-full">
           <form onSubmit={handleSubmit} className="bg-gray-100 shadow-sm rounded-md p-8">
               <h2 className="lg:text-2xl text-center font-semibold mb-6">Post job offer </h2>
               <div className="mb-6">
